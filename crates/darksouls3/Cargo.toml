@@ -1,0 +1,22 @@
+[package]
+name = "darksouls3-extra"
+version.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
+readme = false
+description = "Additional hook-based APIs for working with Dark Souls III"
+
+[dependencies]
+darksouls3 = { git = "https://github.com/FantaTanked/fromsoft-rs", rev = "a3fb61d40a40cd8eb114b4e1a900390ce64b2872" }
+pelite.workspace = true
+fromsoftware-extra-shared.workspace = true
+fromsoftware-shared.workspace = true
+ilhook.workspace = true
+thiserror.workspace = true
+windows.workspace = true
+bitflags.workspace = true
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc"]

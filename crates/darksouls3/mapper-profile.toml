@@ -1,0 +1,15 @@
+[[vmts]]
+class = "NS_SPRJ::EquipGameData"
+captures = { "equip_game_data_serialize" = 1, "equip_game_data_deserialize" = 2 }
+
+[[vmts]]
+class = "DLUID::KeyboardDevice<DLKR::DLMultiThreadingPolicy>"
+captures = { "dluid_keyboard_device_should_block_input" = 27 }
+
+[[vmts]]
+class = "DLUID::MouseDevice<DLKR::DLMultiThreadingPolicy>"
+captures = { "dluid_mouse_device_should_block_input" = 27 }
+
+[[vmts]]
+class = "DLUID::PadDevice<DLKR::DLMultiThreadingPolicy>"
+captures = { "dluid_pad_device_should_block_input" = 27 }

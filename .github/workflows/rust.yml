@@ -1,0 +1,66 @@
+name: Rust
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-Dwarnings"
+  RUSTDOCFLAGS: "-Dwarnings"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure private Git dependencies
+        shell: pwsh
+        env:
+          FROMSOFTWARE_RS_ELDENRING_DEPLOY_KEY: ${{ secrets.FROMSOFTWARE_RS_ELDENRING_DEPLOY_KEY }}
+        run: |
+          if (-not $env:FROMSOFTWARE_RS_ELDENRING_DEPLOY_KEY) {
+            throw "Missing FROMSOFTWARE_RS_ELDENRING_DEPLOY_KEY secret"
+          }
+          $sshDir = Join-Path $env:USERPROFILE ".ssh"
+          New-Item -ItemType Directory -Path $sshDir -Force | Out-Null
+          $keyPath = Join-Path $sshDir "fromsoftware_rs_eldenring"
+          $env:FROMSOFTWARE_RS_ELDENRING_DEPLOY_KEY.Replace("`r", "") | Set-Content -LiteralPath $keyPath -NoNewline -Encoding ascii
+          icacls $keyPath /inheritance:r /grant:r "$($env:USERNAME):(R)" | Out-Null
+          git config --global url."git@github.com:FantaTanked/fromsoftware-rs-eldenring.git".insteadOf "https://github.com/FantaTanked/fromsoftware-rs-eldenring"
+          "GIT_SSH_COMMAND=ssh -i `"$keyPath`" -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Tests
+        run: cargo test --verbose
+
+      - name: Formatting
+        run: cargo fmt -- --check
+
+      - name: Documentation
+        run: cargo doc --no-deps
