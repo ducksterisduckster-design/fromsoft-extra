@@ -72,7 +72,7 @@ fn detect_version_and_get_rvas(module: &PeView) -> Option<RvaBundle> {
 impl RvaBundle {
     fn for_version(version: GameVersion) -> Self {
         match version {
-            GameVersion::Er2620 => rva_data::RVAS,
+            GameVersion::Er270 => rva_data::RVAS,
         }
     }
 }
