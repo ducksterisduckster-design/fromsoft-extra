@@ -12,17 +12,17 @@ const LANG_ID_EN: u16 = 0x0009;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum GameVersion {
-    Er2620,
+    Er270,
 }
 
 impl GameVersion {
     fn from_metadata(product: &str, lang_id: u16, version: &str) -> Option<Self> {
         match (product, lang_id, version) {
-            ("ELDEN RING™", LANG_ID_EN, "2.6.2.0") => Some(Self::Er2620),
+            ("ELDEN RING™", LANG_ID_EN, "2.7.0.0") => Some(Self::Er270),
             _ => None,
         }
     }
-}
+}  
 
 /// Returns the RVA bundle for the current executable region and version.
 ///
