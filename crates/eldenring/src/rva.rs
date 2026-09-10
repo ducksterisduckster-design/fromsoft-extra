@@ -12,17 +12,21 @@ const LANG_ID_EN: u16 = 0x0009;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum GameVersion {
-    Er270,
+    /// PLACEHOLDER match string -- see rva/rva_data.rs. The version string
+    /// below has NOT been confirmed against a real 1.17.1 exe; run the
+    /// `dump_version` example against your own copy and fix this arm if it
+    /// prints something different.
+    Er1171,
 }
 
 impl GameVersion {
     fn from_metadata(product: &str, lang_id: u16, version: &str) -> Option<Self> {
         match (product, lang_id, version) {
-            ("ELDEN RING™", LANG_ID_EN, "2.7.0.0") => Some(Self::Er270),
+            ("ELDEN RING™", LANG_ID_EN, "1.17.1.0") => Some(Self::Er1171),
             _ => None,
         }
     }
-}  
+}
 
 /// Returns the RVA bundle for the current executable region and version.
 ///
@@ -71,8 +75,9 @@ fn detect_version_and_get_rvas(module: &PeView) -> Option<RvaBundle> {
 
 impl RvaBundle {
     fn for_version(version: GameVersion) -> Self {
+       
         match version {
-            GameVersion::Er270 => rva_data::RVAS,
-        }
+            GameVersion::Er1171 => rva_data::RVAS,
+        }    
     }
 }
