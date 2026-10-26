@@ -9,9 +9,9 @@ use super::RvaBundle;
 /// These are populated from `mapper-profile.toml` in the root of this package
 /// using `tools/binary-generator`.
 pub const RVAS: RvaBundle = RvaBundle {
-    dluid_keyboard_device_should_block_input: 0x1f6f4b0,
-    dluid_mouse_device_should_block_input: 0x1f6fb90,
-    dluid_pad_device_should_block_input: 0x1f6d940,
-    equip_game_data_deserialize: 0x248520,
-    equip_game_data_serialize: 0x248fd0,
+dluid_keyboard_device_should_block_input: 0x1f70ba0,
+dluid_mouse_device_should_block_input: 0x1f71280,
+dluid_pad_device_should_block_input: 0x1f6f030,
+equip_game_data_deserialize: 0x248520,
+equip_game_data_serialize: 0x248fd0,
 };

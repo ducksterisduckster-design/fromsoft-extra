@@ -19,7 +19,7 @@ enum GameVersion {
 impl GameVersion {
     fn from_metadata(product: &str, lang_id: u16, version: &str) -> Option<Self> {
         match (product, lang_id, version) {
-            ("ELDEN RING™", LANG_ID_EN, "2.7.1.0") => Some(Self::Er1171),
+            ("ELDEN RING™", LANG_ID_EN, "2.7.2.0") => Some(Self::Er1171),
             _ => None,
         }
     }
